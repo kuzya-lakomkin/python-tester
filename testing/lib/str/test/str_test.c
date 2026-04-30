@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdio.h>
 
-#include "../src/str.h"
+#include "../str.h"
 
 Test(str_suite, test_create) {
     str new;

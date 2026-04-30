@@ -18,6 +18,9 @@ static size_t __strlen(char * str) {
     return cnt;
 }
 
+str invalid_str(void) {
+    return (str){NULL, 0, 0};
+}
 
 int create_str(str * s) {
     if (NULL == s) {

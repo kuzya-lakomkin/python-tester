@@ -22,6 +22,11 @@ int create_str(str * s);
 /**
  * 
  */
+str invalid_str(void);
+
+/**
+ * 
+ */
 int copy_char_str(str * dst, char * src);
 
 /**

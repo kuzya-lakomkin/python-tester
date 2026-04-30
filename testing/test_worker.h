@@ -1,7 +1,7 @@
 #ifndef _NSTU_TEST_WORKER_H
 #define _NSTU_TEST_WORKER_H
 
-#include "../str/src/str.h"
+#include "../str/str.h"
 
 struct PythonTestWorker {
     str _solution_path, _tests_path;
