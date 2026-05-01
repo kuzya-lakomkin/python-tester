@@ -46,7 +46,17 @@ int push_ch_buffer(CharBuffer * buff, char * s, size_t size) {
 }
 
 int push_str_buff(CharBuffer * buff, str * s) {
+    if (NULL == buff || NULL == s || !str_length(s) || str_length(s) > buff->_capacity) {
+        return -1;
+    }
 
+    for (size_t i = 0; i < str_length(s); ++i) {
+        str_symbol(s, i, buff->_storage + i);
+    }
+
+    buff->_size = str_length(s);
+
+    return 0;
 }
 
 int next_buffer_sym(CharBuffer * buff, char * dst) {

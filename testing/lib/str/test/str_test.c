@@ -48,6 +48,9 @@ Test(str_suite, test_copy_lvalue) {
         }
     }
 
+    cr_assert_eq(str_capacity(&new), 7);
+    cr_assert_eq(str_length(&new), 6);
+
     delete_str(&new);
 }
 
@@ -64,8 +67,8 @@ Test(str_suite, test_copy) {
     if (!copy_str(&b, &a)) {
         cr_assert_neq(b._str, NULL);
         cr_assert_neq(b._capacity, 0);
-        cr_assert_neq(b._length, 0);
-
+        cr_assert_eq(b._length, 9);
+        
         for (size_t i = 0; i > str_length(&b); ++i) {
             cr_assert_eq(a._str[i], b._str[i]);
         }
@@ -120,6 +123,9 @@ Test(str_suite, test_is_valid) {
 
     delete_str(&s);
     cr_assert_eq(is_str_valid(&s), 0);
+
+    str a = invalid_str();
+    cr_assert_eq(is_str_valid(&a), 0);
 }
 
 Test(str_suite, test_get_symbol) {
@@ -160,6 +166,7 @@ Test(str_suite, test_cmp) {
     cr_assert_eq(str_cmp(&a, &b), 0);
 
     cr_assert_eq(str_cmp(&a, &a), 1);
+    cr_assert_eq(str_cmp(&b, &b), 1);
     cr_assert_eq(str_cmp(NULL, NULL), 0);
 
     delete_str(&a);
@@ -175,7 +182,6 @@ Test(str_suite, test_slice) {
     copy_char_str(&postfix, ".py");
 
     cr_assert_eq(str_cmp(&postfix, &res), 1);
-
     cr_assert_eq(str_length(&postfix), 3);
 
     delete_str(&s);
@@ -193,6 +199,7 @@ Test(str_suite, test_concat) {
     copy_char_str(&test, "petr hohlin");
 
     cr_assert_eq(str_cmp(&test, &c), 1);
+    cr_assert_eq(str_length(&c), 11);
 
     delete_str(&a);
     delete_str(&b);
@@ -204,6 +211,7 @@ Test(str_suite, test_concat) {
     
     cr_assert_eq(res, 0);
     cr_assert_eq(str_cmp(&test, &a), 1);
+    cr_assert_eq(str_length(&a), 11);
 
     delete_str(&a);
     delete_str(&b);
@@ -214,8 +222,38 @@ Test(str_suite, test_concat) {
     
     cr_assert_eq(res, 0);
     cr_assert_eq(str_cmp(&test, &b), 1);
+    cr_assert_eq(str_length(&b), 11);
 
     delete_str(&test);
     delete_str(&a);
     delete_str(&b);
+}
+
+Test(str_suite, test_add_str) {
+    str a, b, test;
+    copy_char_str(&a, "Hello Hello Hello Hello Hello");
+    copy_char_str(&b, " World! World! World! World! World!");
+    copy_char_str(&test, "Hello Hello Hello Hello Hello World! World! World! World! World!");
+    str_add_str(&a, &b);
+
+    cr_assert_eq(str_cmp(&a, &test), 1);
+    cr_assert_eq(str_length(&test), str_length(&a));
+
+    delete_str(&a);
+    delete_str(&b);
+    delete_str(&test);
+}
+
+Test(str_suite, test_add_char) {
+    str a, test;
+    char b[10] = " Wooorld!";
+    copy_char_str(&a, "Hello Hello Hello Hello Hello");
+    copy_char_str(&test, "Hello Hello Hello Hello Hello Wooorld!");
+    str_add_char(&a, b, 9);
+
+    cr_assert_eq(str_cmp(&a, &test), 1);
+    cr_assert_eq(str_length(&test), str_length(&a));
+
+    delete_str(&a);
+    delete_str(&test);
 }

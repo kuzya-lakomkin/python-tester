@@ -1,8 +1,9 @@
-#include "str.h"
+#include "../str.h"
 
 #include <stdio.h>
 
 static const size_t INITIAL_CAPACITY = 4;
+static const size_t EXPAND_COEFF =  1.618;
 
 static size_t __strlen(char * str) {
     if (NULL == str) {
@@ -16,6 +17,24 @@ static size_t __strlen(char * str) {
     }
 
     return cnt;
+}
+
+static size_t __max(size_t a, size_t b) {
+    return a > b ? a : b;
+}
+
+static int __expand_str(str * _s, size_t _size) {
+    if (NULL == _s || NULL == _s->_str || _size <= _s->_capacity) {
+        return -1;
+    }
+
+    _s->_str = (char *)(realloc(_s->_str, _size * sizeof(char)));
+    if (NULL == _s->_str) {
+        return -1;
+    }
+    _s->_capacity = _size;
+
+    return 0;
 }
 
 str invalid_str(void) {
@@ -276,4 +295,51 @@ str str_slice(str * src, int start, int end) {
     new._length = new_capacity;
 
     return new;
+}
+
+int str_add_str(str * dst, str * postfix) {
+    if (NULL == dst || NULL == postfix) {
+        return -1;
+    }
+
+    if (0 == postfix->_length) {
+        return 0;
+    }
+
+    if (dst->_capacity < postfix->_length + dst->_length) {
+        if (__expand_str(dst, __max(dst->_capacity * EXPAND_COEFF, dst->_length + postfix->_length))) {
+            return -1;
+        }
+    }
+
+    for (size_t i = 0; i < postfix->_length; ++i) {
+        dst->_str[dst->_length + i] = postfix->_str[i];
+    }
+    dst->_length += postfix->_length;
+
+    return 0;
+}
+
+int str_add_char(str * dst, char * postfix, size_t length) {
+    if (NULL == dst || NULL == postfix) {
+        return -1;
+    }
+
+    if (0 == length) {
+        return 0;
+    }
+
+    if (dst->_capacity < length + dst->_length) {
+        if (__expand_str(dst, __max(dst->_capacity * EXPAND_COEFF, dst->_length + length + 1))) {
+            return -1;
+        }
+    }
+
+    for (size_t i = 0; i < length; ++i) {
+        dst->_str[dst->_length + i] = postfix[i];
+    }
+    dst->_length += length;
+    dst->_str[dst->_length] = 0;
+
+    return 0;
 }

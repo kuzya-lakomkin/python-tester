@@ -20,12 +20,19 @@ typedef struct str str;
 int create_str(str * s);
 
 /**
+ * @brief Returns invalid string.
  * 
+ * @return Invalid string.
  */
 str invalid_str(void);
 
 /**
+ * @brief Creates new string from raw char array.
  * 
+ * @param dst New string.
+ * @param src Char array to copy.
+ * 
+ * @return 0 if string was copied successfully, -1 if failure.
  */
 int copy_char_str(str * dst, char * src);
 
@@ -80,7 +87,7 @@ size_t str_capacity(str * s);
  * @param id Symbol index.
  * @param res Place to write a symbol.
  * 
- * @return 0 if symbol was fooun successfully; -1 if failure. 
+ * @return 0 if symbol was found successfully; -1 if failure. 
  */
 int str_symbol(str * s, size_t id, char * res);
 
@@ -114,18 +121,56 @@ int is_str_valid(str * s);
 int is_str_empty(str * s);
 
 /**
+ * @brief Compares two strings.
  * 
+ * @param a First operand.
+ * @param b Second operand.
+ * 
+ * @return 1 if strings are equal to each other; 0 if strings are not equal or if failed to complete operation.
  */
 int str_cmp(str * a, str * b);
 
 /**
+ * @brief Sets string symbol by index.
  * 
+ * @param s String to set symbol.
+ * @param i Symbol index.
+ * @param sym Symbol to set.
+ * 
+ * @return 0 if symbol was setted successfully; -1 if failure. 
  */
 int str_set_sym(str * s, size_t i, char sym);
 
 /**
+ * @brief Creates slice from specified string by indexes.
  * 
+ * @param src String to slice.
+ * @param start Slice start index.
+ * @param end Slice end index.
+ * 
+ * @return Sliced string. src stays valid after this operation. Invalid sttring can be returned if operation failed.
  */
 str str_slice(str * src, int start, int end);
+
+/**
+ * @brief Adds substring to the end of specified string.
+ * 
+ * @param dst String.
+ * @param postfix Substring to add.
+ * 
+ * @return 0 if substring was added successfully; -1 if failure. 
+ */
+int str_add_str(str * dst, str * postfix);
+
+/**
+ * @brief Adds substring to the end of specified string.
+ * 
+ * @param dst String.
+ * @param postfix Substring to add.
+ * @param length Substring length.
+ * 
+ * @return 0 if substring was added successfully; -1 if failure. 
+ */
+int str_add_char(str * dst, char * postfix, size_t length);
 
 #endif
