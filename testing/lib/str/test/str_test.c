@@ -242,6 +242,16 @@ Test(str_suite, test_add_str) {
     delete_str(&a);
     delete_str(&b);
     delete_str(&test);
+
+    copy_char_str(&test, "AAAAAAAAAA");
+    copy_char_str(&a, "AAAAA");
+    str_add_str(&a, &a);
+
+    cr_assert_eq(str_cmp(&a, &test), 1);
+    cr_assert_eq(str_length(&test), str_length(&a));
+
+    delete_str(&a);
+    delete_str(&test);
 }
 
 Test(str_suite, test_add_char) {
@@ -251,6 +261,15 @@ Test(str_suite, test_add_char) {
     copy_char_str(&test, "Hello Hello Hello Hello Hello Wooorld!");
     str_add_char(&a, b, 9);
 
+    cr_assert_eq(str_cmp(&a, &test), 1);
+    cr_assert_eq(str_length(&test), str_length(&a));
+
+    delete_str(&a);
+    delete_str(&test);
+
+    a = invalid_str();
+    copy_char_str(&test, "looooool");
+    str_add_char(&a, "looooool", 8);
     cr_assert_eq(str_cmp(&a, &test), 1);
     cr_assert_eq(str_length(&test), str_length(&a));
 

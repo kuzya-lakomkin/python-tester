@@ -5,7 +5,3 @@ TestReader init_test_reader(FILE * tests, size_t tests_amount, char sep) {
     if (NULL == tests) { return new_reader; }
     
 }
-
-int next_test(TestReader * reader, Test * test, char sep) {
-
-}

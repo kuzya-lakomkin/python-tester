@@ -24,7 +24,7 @@ static size_t __max(size_t a, size_t b) {
 }
 
 static int __expand_str(str * _s, size_t _size) {
-    if (NULL == _s || NULL == _s->_str || _size <= _s->_capacity) {
+    if (NULL == _s|| _size <= _s->_capacity) {
         return -1;
     }
 
@@ -338,7 +338,11 @@ int str_add_char(str * dst, char * postfix, size_t length) {
     for (size_t i = 0; i < length; ++i) {
         dst->_str[dst->_length + i] = postfix[i];
     }
-    dst->_length += length;
+
+    if (*postfix) {
+        dst->_length += length;
+    }
+
     dst->_str[dst->_length] = 0;
 
     return 0;

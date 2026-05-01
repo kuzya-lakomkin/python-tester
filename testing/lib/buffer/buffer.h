@@ -41,4 +41,24 @@ int next_buffer_sym(CharBuffer * buff, char * dst);
  */
 int next_buffer_substr(CharBuffer * buff, str * dst, size_t size);
 
+/**
+ * 
+ */
+char * buffer_raw_ptr(CharBuffer * buff);
+
+/**
+ * 
+ */
+size_t buffer_length(CharBuffer * buff);
+
+/**
+ * 
+ */
+size_t buffer_capacity(CharBuffer * buff);
+
+/**
+ * 
+ */
+size_t buffer_index(CharBuffer * buff);
+
 #endif
